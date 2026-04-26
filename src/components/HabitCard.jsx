@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { useState } from 'preact/hooks';
 import { completeHabit, undoCompletion, isCompletedToday, getStreak, deleteHabit } from '../stores/habits';
 import { AnimationContainer } from './AnimationContainer';
+import { HabitInfoModal } from './HabitInfoModal';
 import '../styles/habit-card.css';
 
 const ANIMATIONS = [
@@ -23,6 +24,7 @@ export function HabitCard({ habit, onDelete }) {
   const [animationType, setAnimationType] = useState('confetti');
   const [undoVisible, setUndoVisible] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   const completed = isCompletedToday(habit.id);
   const streak = getStreak(habit.id);
@@ -32,7 +34,11 @@ export function HabitCard({ habit, onDelete }) {
       return;
     }
     
-    if (!completed) {
+    if (completed) {
+      // Click on a done task shows info modal
+      setShowInfoModal(true);
+    } else {
+      // Click on undone task marks it complete
       const success = completeHabit(habit.id);
       if (success) {
         const animation = getRandomAnimation();
@@ -85,6 +91,13 @@ export function HabitCard({ habit, onDelete }) {
   return (
     <>
       {showAnimation && <AnimationContainer type={animationType} />}
+      {showInfoModal && (
+        <HabitInfoModal
+          habit={habit}
+          streak={streak}
+          onClose={() => setShowInfoModal(false)}
+        />
+      )}
       
       <div
         className={`habit-card ${completed ? 'completed' : ''} ${showAnimation ? 'animating' : ''}`}
