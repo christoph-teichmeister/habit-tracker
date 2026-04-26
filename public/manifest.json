@@ -1,0 +1,26 @@
+{
+  "name": "Habit Tracker",
+  "short_name": "Habits",
+  "description": "A lightweight PWA for tracking daily habits",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#45b7d1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "/screenshot.png",
+      "sizes": "540x720",
+      "form_factor": "narrow"
+    }
+  ]
+}
