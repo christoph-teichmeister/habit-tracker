@@ -53,19 +53,6 @@ body {
   padding: 24px 16px;
 }
 
-.app-footer {
-  background: white;
-  border-top: 1px solid var(--border);
-  text-align: center;
-  padding: 16px;
-  font-size: 12px;
-  color: #999;
-}
-
-.app-footer p {
-  margin: 0;
-}
-
 .loading {
   display: flex;
   align-items: center;

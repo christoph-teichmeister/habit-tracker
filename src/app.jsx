@@ -9,13 +9,18 @@ export function App() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Load immediately without try-catch to see errors
-    loadHabits();
-    // Use setTimeout to ensure DOM is ready
-    setTimeout(() => {
+    try {
+      loadHabits();
       setMounted(true);
-    }, 100);
+    } catch (err) {
+      console.error('Failed to load:', err);
+      setMounted(true);
+    }
   }, []);
+
+  if (!mounted) {
+    return h('div', { className: 'loading' }, 'Loading...');
+  }
 
   return (
     <div className="app">
@@ -25,21 +30,9 @@ export function App() {
       </header>
 
       <main className="app-main">
-        {mounted ? (
-          <>
-            <AddHabitForm onSubmit={() => {}} />
-            <HabitList />
-          </>
-        ) : (
-          <div style="text-align: center; padding: 40px; color: #999;">
-            <p>Loading...</p>
-          </div>
-        )}
+        <AddHabitForm onSubmit={() => {}} />
+        <HabitList />
       </main>
-
-      <footer className="app-footer">
-        <p>All data stored locally • Works offline • No account needed</p>
-      </footer>
     </div>
   );
 }
