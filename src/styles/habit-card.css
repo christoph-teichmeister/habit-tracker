@@ -1,8 +1,8 @@
 .habit-card {
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
+  background: var(--bg-card);
+  border: 3px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
   min-height: 100px;
   display: flex;
   flex-direction: column;
@@ -16,18 +16,19 @@
 
 .habit-card:hover:not(.delete-confirm) {
   border-color: var(--primary);
-  box-shadow: 0 8px 24px rgba(69, 183, 209, 0.2);
-  transform: translateY(-3px);
-  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(29, 209, 161, 0.25), 0 0 20px rgba(29, 209, 161, 0.1);
+  transform: translateY(-4px);
+  border-radius: 20px;
 }
 
 .habit-card.completed {
-  background: linear-gradient(135deg, #d4f8d4 0%, #e8f5e9 100%);
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.08) 0%, rgba(168, 230, 215, 0.12) 100%);
   border-color: var(--success);
 }
 
 .habit-card.completed:hover {
-  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 8px 32px rgba(46, 204, 113, 0.25), 0 0 20px rgba(46, 204, 113, 0.1);
+  border-color: var(--success);
 }
 
 .habit-card.animating {
@@ -47,7 +48,7 @@
 }
 
 .habit-card.delete-confirm {
-  background: #fff3e0;
+  background: rgba(255, 167, 38, 0.08);
   border-color: var(--warning);
   cursor: auto;
 }
@@ -64,18 +65,18 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 12px;
+  margin-bottom: 12px;
   min-height: 20px;
 }
 
 .habit-name {
   margin: 0;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text);
   flex: 1;
-  line-height: 1.2;
+  line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -88,48 +89,49 @@
   background: transparent;
   border: none;
   color: #ccc;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: var(--transition-fast);
   flex-shrink: 0;
   padding: 0;
 }
 
 .delete-btn:hover {
-  background: #fee;
+  background: rgba(255, 55, 65, 0.1);
   color: var(--danger);
-  transform: scale(1.2);
+  transform: scale(1.3) rotate(90deg);
 }
 
 .habit-bottom {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
-  min-height: 18px;
+  min-height: 20px;
 }
 
 .streak-badge {
   display: flex;
   align-items: center;
-  gap: 3px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #ff6f00;
-  animation: streak-pulse 0.6s ease-out;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--streak-color) 0%, var(--streak-dark) 100%);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  animation: streak-pulse 0.5s ease-out;
 }
 
 @keyframes streak-pulse {
   0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
+    transform: scale(0.8);
   }
   100% {
     transform: scale(1);
@@ -137,18 +139,28 @@
 }
 
 .fire {
-  font-size: 14px;
+  font-size: 16px;
+  animation: fire-float 2s ease-in-out infinite;
+}
+
+@keyframes fire-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
 }
 
 .streak-count {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .no-streak {
-  font-size: 10px;
-  color: #999;
+  font-size: 11px;
+  color: var(--text-light);
   font-weight: 500;
-  line-height: 1.1;
+  line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -156,40 +168,42 @@
 
 .done-badge {
   margin-left: auto;
-  background: linear-gradient(135deg, var(--success), #45a049);
+  background: linear-gradient(135deg, var(--success) 0%, var(--success-light) 100%);
   color: white;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
   animation: badge-bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes badge-bounce {
   0% {
-    transform: scale(0.5);
+    transform: scale(0.3) rotate(-180deg);
   }
   100% {
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
   }
 }
 
-/* Milestone badge (day 7, 14, 30, 60) */
+/* Milestone badges */
 .streak-milestone {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 20px;
-  height: 20px;
-  background: radial-gradient(circle, #FFD700, #FFA500);
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--streak-color) 0%, var(--streak-dark) 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
-  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4), 0 0 20px rgba(255, 215, 0, 0.2);
   animation: milestone-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border: 2px solid white;
 }
 
 @keyframes milestone-pop {
@@ -205,7 +219,7 @@
 .delete-confirm-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   pointer-events: auto;
   min-height: 60px;
   justify-content: space-between;
@@ -213,8 +227,9 @@
 
 .delete-confirm h4 {
   margin: 0;
-  color: #e65100;
-  font-size: 13px;
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -222,45 +237,49 @@
 
 .delete-confirm p {
   margin: 0;
-  color: var(--warning);
-  font-size: 11px;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .confirm-actions {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .btn-confirm-yes,
 .btn-confirm-no {
   flex: 1;
-  padding: 5px;
+  padding: 8px;
   border: none;
   border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition-fast);
 }
 
 .btn-confirm-yes {
-  background: var(--danger);
+  background: linear-gradient(135deg, var(--danger) 0%, #FF5252 100%);
   color: white;
+  box-shadow: 0 4px 12px rgba(255, 55, 65, 0.3);
 }
 
 .btn-confirm-yes:hover {
-  background: #ff5252;
   transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 55, 65, 0.4);
 }
 
 .btn-confirm-no {
   background: white;
-  color: var(--warning);
-  border: 1px solid var(--warning);
+  color: var(--text);
+  border: 2px solid var(--border);
+  font-weight: 600;
 }
 
 .btn-confirm-no:hover {
-  background: #fff3e0;
+  background: var(--bg-accent);
+  border-color: var(--primary);
 }
 
 /* Undo wrapper */
@@ -269,8 +288,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 10px 12px 12px 12px;
-  background: linear-gradient(to top, white 70%, transparent);
+  padding: 12px 16px 16px 16px;
+  background: linear-gradient(to top, var(--bg-card) 70%, transparent);
   opacity: 0;
   transform: translateY(20px);
   pointer-events: none;
@@ -286,25 +305,27 @@
 .undo-btn {
   position: relative;
   width: 100%;
-  padding: 6px;
-  border: 1px solid var(--warning);
+  padding: 8px;
+  border: 2px solid var(--warning);
   background: white;
   color: var(--warning);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: filter 0.2s;
+  box-shadow: 0 4px 12px rgba(255, 167, 38, 0.2);
 }
 
 .undo-btn:hover {
-  color: #ff7043;
-  filter: brightness(1.05);
+  color: var(--streak-dark);
+  filter: brightness(1.08);
+  box-shadow: 0 6px 16px rgba(255, 167, 38, 0.3);
 }
 
 .undo-text {
@@ -332,7 +353,7 @@
   left: 0;
   width: 0%;
   height: 100%;
-  background: var(--warning);
+  background: linear-gradient(90deg, var(--warning) 0%, var(--streak-color) 100%);
   border-radius: var(--radius-sm);
   animation: undo-timeout-fill 5s linear forwards;
   pointer-events: none;
@@ -348,18 +369,24 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 640px) {
   .habit-card {
     min-height: 90px;
-    padding: 10px;
+    padding: 12px;
+    border-width: 2px;
   }
 
   .habit-name {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .habit-card:hover:not(.delete-confirm) {
     transform: translateY(-2px);
+  }
+
+  .delete-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
   }
 }

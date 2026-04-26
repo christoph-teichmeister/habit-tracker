@@ -5,171 +5,156 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99;
 }
 
-/* Confetti - colorful falling squares */
+/* ===== CONFETTI PARTICLES ===== */
 .confetti-particle {
   position: fixed;
-  border-radius: 2px;
   pointer-events: none;
+  border-radius: 2px;
   animation: confetti-fall 4s ease-out forwards;
 }
 
 @keyframes confetti-fall {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
+  to {
     transform: translate(
       calc(var(--vx) * 200px),
-      calc(var(--vy) * 200px + 500px)
-    ) rotate(720deg);
+      calc(var(--vy) * 300px)
+    ) rotate(360deg);
     opacity: 0;
   }
 }
 
-/* Bounce & Glow - expanding rings */
+/* ===== BOUNCE GLOW ===== */
 .bounce-glow {
   position: fixed;
-  border: 3px solid rgba(255, 215, 0, 0.6);
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--primary);
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  animation: bounce-glow-pulse 4s ease-out forwards;
   pointer-events: none;
-  animation: expand-fade 4s ease-out forwards;
-  animation-delay: var(--delay);
 }
 
-@keyframes expand-fade {
+@keyframes bounce-glow-pulse {
   0% {
-    width: 40px;
-    height: 40px;
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
+    box-shadow: 0 0 10px var(--primary);
   }
   100% {
-    width: 400px;
-    height: 400px;
+    transform: translate(-50%, -50%) scale(3);
     opacity: 0;
+    box-shadow: 0 0 30px var(--primary);
   }
 }
 
-/* Particle Explosion - burst outward */
+/* ===== EXPLOSION PARTICLES ===== */
 .explosion-particle {
   position: fixed;
   border-radius: 50%;
+  animation: explode 4s ease-out forwards;
   pointer-events: none;
-  animation: explosion 4s ease-out forwards;
+  box-shadow: 0 0 10px currentColor;
 }
 
-@keyframes explosion {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    opacity: 0;
+@keyframes explode {
+  to {
     transform: translate(var(--end-x), var(--end-y)) scale(0);
+    opacity: 0;
   }
 }
 
-/* Rainbow Pulse - expanding colored rings */
+/* ===== RAINBOW PULSE ===== */
 .rainbow-pulse {
   position: fixed;
-  width: 50px;
-  height: 50px;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
   border: 3px solid;
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  animation: rainbow-expand 4s ease-out forwards;
   pointer-events: none;
-  animation: pulse-expand 4s ease-out forwards;
-  animation-delay: var(--delay);
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
-@keyframes pulse-expand {
+@keyframes rainbow-expand {
   0% {
-    width: 50px;
-    height: 50px;
-    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
   100% {
-    width: 500px;
-    height: 500px;
+    transform: translate(-50%, -50%) scale(4);
     opacity: 0;
   }
 }
 
-/* Star Spiral - stars spiraling outward */
+/* ===== STAR PARTICLES ===== */
 .star-particle {
   position: fixed;
-  font-size: 28px;
+  font-size: 24px;
+  animation: star-spiral 4s ease-out forwards;
   pointer-events: none;
-  animation: spiral-out 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
 }
 
-@keyframes spiral-out {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
-  100% {
+@keyframes star-spiral {
+  to {
+    transform: translate(var(--end-x), var(--end-y)) scale(0) rotate(720deg);
     opacity: 0;
-    transform: translate(var(--end-x), var(--end-y)) scale(0.3) rotate(360deg);
   }
 }
 
-/* Fireworks - burst particles */
+/* ===== FIREWORKS ===== */
 .firework-particle {
   position: fixed;
   border-radius: 50%;
+  animation: firework-burst 4s ease-out forwards;
   pointer-events: none;
-  animation: firework-burst 3.5s ease-out forwards;
-  box-shadow: 0 0 6px currentColor;
 }
 
 @keyframes firework-burst {
   0% {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
   }
   100% {
-    opacity: 0;
     transform: translate(var(--end-x), var(--end-y)) scale(0);
+    opacity: 0;
   }
 }
 
-/* Floating Hearts - hearts floating up */
+/* ===== FLOATING HEARTS ===== */
 .floating-heart {
   position: fixed;
-  font-size: 36px;
+  font-size: 20px;
+  animation: heart-float 4s ease-out forwards;
   pointer-events: none;
-  animation: float-up 4s ease-out forwards;
-  filter: drop-shadow(0 2px 4px rgba(255, 107, 107, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-@keyframes float-up {
-  0% {
-    bottom: -50px;
-    opacity: 1;
-    transform: translateX(0) scale(1) rotate(-10deg);
-  }
-  100% {
-    bottom: 100vh;
+@keyframes heart-float {
+  to {
+    transform: translateX(var(--offset-x)) translateY(-400px) scale(0);
     opacity: 0;
-    transform: translateX(var(--offset-x)) scale(0.3) rotate(10deg);
   }
 }
 
-/* Hamster Wheel Animation */
+/* ===== HAMSTER WHEEL ===== */
 .hamster-wheel {
   position: fixed;
-  font-size: 80px;
+  font-size: 100px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   animation: hamster-spin 2s linear infinite, hamster-fade-out 4s ease-out forwards;
-  filter: drop-shadow(0 0 8px rgba(244, 164, 96, 0.4));
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px rgba(29, 209, 161, 0.4));
 }
 
 @keyframes hamster-spin {
@@ -190,11 +175,13 @@
   }
 }
 
-/* Swirl Particle Animation */
+/* ===== SWIRL PARTICLES ===== */
 .swirl-particle {
   position: fixed;
   border-radius: 50%;
   animation: swirl-out 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  pointer-events: none;
+  box-shadow: 0 0 10px currentColor;
 }
 
 @keyframes swirl-out {
