@@ -174,6 +174,7 @@
 }
 
 .undo-btn {
+  position: relative;
   width: 100%;
   padding: 6px;
   border: 1px solid var(--warning);
@@ -185,10 +186,33 @@
   font-weight: 600;
   transition: var(--transition);
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .undo-btn:hover {
   background: #fff3e0;
+}
+
+/* Timeout progress bar that fills from left to right */
+.undo-timeout-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--warning), var(--warning));
+  border-radius: var(--radius-sm);
+  animation: undo-timeout-fill 5s linear forwards;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+@keyframes undo-timeout-fill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 /* Confirm actions */

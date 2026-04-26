@@ -15,6 +15,8 @@ const ANIMATIONS = [
   'floating-hearts'
 ];
 
+const UNDO_TIMEOUT = 5000; // 5 seconds
+
 function getRandomAnimation() {
   return ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)];
 }
@@ -41,6 +43,17 @@ export function HabitCard({ habit, onDelete }) {
       timers.forEach(timer => clearTimeout(timer));
     };
   }, [showAnimation]);
+
+  // Auto-dismiss undo button after timeout
+  useEffect(() => {
+    if (!undoVisible) return;
+
+    const timer = setTimeout(() => {
+      setUndoVisible(false);
+    }, UNDO_TIMEOUT);
+
+    return () => clearTimeout(timer);
+  }, [undoVisible]);
 
   const handleCardClick = (e) => {
     if (e.target.closest('.delete-btn') || showDeleteConfirm) {
@@ -141,6 +154,7 @@ export function HabitCard({ habit, onDelete }) {
         <div className={`undo-wrapper ${undoVisible ? 'visible' : ''}`}>
           <button className="undo-btn" onClick={handleUndo} type="button">
             Undo
+            <span className="undo-timeout-bar"></span>
           </button>
         </div>
       </div>
