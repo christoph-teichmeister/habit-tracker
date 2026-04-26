@@ -1,13 +1,13 @@
 .add-habit-btn {
-  background: linear-gradient(135deg, #45b7d1, #357abd);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   border: none;
   padding: 14px 24px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   width: 100%;
   margin-bottom: 24px;
 }
@@ -19,8 +19,8 @@
 
 .add-habit-form {
   background: white;
-  border: 2px solid #45b7d1;
-  border-radius: 12px;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
   padding: 20px;
   margin-bottom: 24px;
 }
@@ -28,7 +28,7 @@
 .add-habit-form h2 {
   margin: 0 0 16px 0;
   font-size: 20px;
-  color: #333;
+  color: var(--text);
 }
 
 .form-group {
@@ -39,7 +39,7 @@
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text);
   margin-bottom: 6px;
 }
 
@@ -47,17 +47,17 @@
 .form-group select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-family: inherit;
-  transition: border-color 0.2s;
+  transition: var(--transition);
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #45b7d1;
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(69, 183, 209, 0.1);
 }
 
@@ -65,7 +65,7 @@
   background: #ffebee;
   color: #c62828;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-bottom: 12px;
   font-size: 14px;
 }
@@ -80,15 +80,15 @@
   flex: 1;
   padding: 10px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition);
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #45b7d1, #357abd);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
 }
 
@@ -99,7 +99,7 @@
 
 .btn-secondary {
   background: #f0f0f0;
-  color: #333;
+  color: var(--text);
 }
 
 .btn-secondary:hover {

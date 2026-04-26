@@ -2,9 +2,17 @@
   --primary: #45b7d1;
   --primary-dark: #357abd;
   --success: #4caf50;
+  --danger: #ff6b6b;
+  --warning: #ff9800;
   --bg: #f5f7fa;
   --text: #333;
   --border: #e0e0e0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --radius: 14px;
+  --radius-sm: 6px;
+  --transition: all 0.3s ease;
 }
 
 * {
@@ -31,7 +39,7 @@ body {
   color: white;
   padding: 32px 16px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .app-header h1 {

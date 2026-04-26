@@ -1,4 +1,5 @@
 import { signal } from '@preact/signals';
+import { getStreakCached, invalidateStreakCache } from './streakCache';
 
 // Main habits store
 export const habits = signal([]);
@@ -14,7 +15,6 @@ export function loadHabits() {
     if (storedCompletions) completions.value = JSON.parse(storedCompletions);
   } catch (e) {
     console.error('Failed to load habits from localStorage:', e);
-    // Don't reset data, let user know there was an issue
   }
 }
 
@@ -38,7 +38,7 @@ function saveCompletions() {
 // Add habit with input sanitization
 export function addHabit(name, interval) {
   const id = Date.now().toString();
-  const sanitizedName = name.trim(); // Remove whitespace
+  const sanitizedName = name.trim();
   
   if (!sanitizedName) {
     console.error('Habit name cannot be empty');
@@ -79,6 +79,7 @@ export function deleteHabit(id) {
   delete newCompletions[id];
   completions.value = newCompletions;
   
+  invalidateStreakCache(id);
   saveHabits();
   saveCompletions();
 }
@@ -102,11 +103,12 @@ export function completeHabit(id) {
       ...completions.value,
       [id]: [...completions.value[id], completionTime],
     };
+    invalidateStreakCache(id);
     saveCompletions();
-    return true; // Completion was successful, trigger animation
+    return true;
   }
   
-  return false; // Already completed today
+  return false;
 }
 
 // Undo last completion
@@ -116,6 +118,7 @@ export function undoCompletion(id) {
       ...completions.value,
       [id]: completions.value[id].slice(0, -1),
     };
+    invalidateStreakCache(id);
     saveCompletions();
   }
 }
@@ -130,37 +133,9 @@ export function isCompletedToday(id) {
   );
 }
 
-// Get streak count
+// Get streak count (cached)
 export function getStreak(id) {
-  if (!completions.value[id] || completions.value[id].length === 0) return 0;
-  
-  const sorted = completions.value[id]
-    .map(t => new Date(t).toDateString())
-    .sort()
-    .reverse();
-  
-  let streak = 1;
-  const today = new Date();
-  let currentDate = new Date(today);
-  
-  // Check if last completion is today or yesterday
-  if (sorted[0] !== currentDate.toDateString()) {
-    currentDate.setDate(currentDate.getDate() - 1);
-    if (sorted[0] !== currentDate.toDateString()) {
-      return 0;
-    }
-  }
-  
-  for (let i = 1; i < sorted.length; i++) {
-    currentDate.setDate(currentDate.getDate() - 1);
-    if (sorted[i] === currentDate.toDateString()) {
-      streak++;
-    } else {
-      break;
-    }
-  }
-  
-  return streak;
+  return getStreakCached(id, completions.value);
 }
 
 // Get last completion date

@@ -1,28 +1,28 @@
 .habit-card {
   background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
   padding: 12px;
   min-height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   position: relative;
   overflow: hidden;
   user-select: none;
 }
 
 .habit-card:hover:not(.delete-confirm) {
-  border-color: #45b7d1;
+  border-color: var(--primary);
   box-shadow: 0 6px 16px rgba(69, 183, 209, 0.15);
   transform: translateY(-2px);
 }
 
 .habit-card.completed {
   background: linear-gradient(135deg, #d4f8d4 0%, #e8f5e9 100%);
-  border-color: #4caf50;
+  border-color: var(--success);
 }
 
 .habit-card.animating {
@@ -43,7 +43,7 @@
 
 .habit-card.delete-confirm {
   background: #fff3e0;
-  border-color: #ff9800;
+  border-color: var(--warning);
   cursor: auto;
 }
 
@@ -66,7 +66,7 @@
   margin: 0;
   font-size: 15px;
   font-weight: 700;
-  color: #333;
+  color: var(--text);
   flex: 1;
   line-height: 1.2;
 }
@@ -77,20 +77,20 @@
   color: #ccc;
   width: 18px;
   height: 18px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: var(--transition);
   flex-shrink: 0;
   padding: 0;
 }
 
 .delete-btn:hover {
   background: #fee;
-  color: #ff6b6b;
+  color: var(--danger);
 }
 
 .habit-bottom {
@@ -125,7 +125,7 @@
 
 .done-badge {
   margin-left: auto;
-  background: #4caf50;
+  background: var(--success);
   color: white;
   padding: 2px 6px;
   border-radius: 10px;
@@ -149,11 +149,11 @@
 
 .delete-confirm p {
   margin: 0;
-  color: #ff6f00;
+  color: var(--warning);
   font-size: 11px;
 }
 
-/* Undo wrapper - only show when visible */
+/* Undo wrapper */
 .undo-wrapper {
   position: absolute;
   bottom: 0;
@@ -164,7 +164,7 @@
   opacity: 0;
   transform: translateY(20px);
   pointer-events: none;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .undo-wrapper.visible {
@@ -176,14 +176,14 @@
 .undo-btn {
   width: 100%;
   padding: 6px;
-  border: 1px solid #ff9800;
+  border: 1px solid var(--warning);
   background: white;
-  color: #ff9800;
-  border-radius: 6px;
+  color: var(--warning);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 11px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: var(--transition);
   white-space: nowrap;
 }
 
@@ -202,15 +202,15 @@
   flex: 1;
   padding: 5px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: var(--transition);
 }
 
 .btn-confirm-yes {
-  background: #ff6b6b;
+  background: var(--danger);
   color: white;
 }
 
@@ -220,8 +220,8 @@
 
 .btn-confirm-no {
   background: white;
-  color: #ff9800;
-  border: 1px solid #ff9800;
+  color: var(--warning);
+  border: 1px solid var(--warning);
 }
 
 .btn-confirm-no:hover {
