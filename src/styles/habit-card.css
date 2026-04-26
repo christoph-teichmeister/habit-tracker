@@ -10,7 +10,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   user-select: none;
   min-height: 160px;
 }
@@ -52,7 +52,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  flex: 1;
 }
 
 .habit-top {
@@ -153,23 +153,22 @@
   font-size: 12px;
 }
 
-/* Undo wrapper */
+/* Undo wrapper - now below the card */
 .undo-wrapper {
   height: 0;
-  overflow: hidden;
-  transition: height 0.3s ease;
+  overflow: visible;
+  transition: all 0.3s ease;
   margin-top: 0;
 }
 
 .undo-wrapper.visible {
-  height: 32px;
-  margin-top: 6px;
+  height: auto;
+  margin-top: 8px;
 }
 
 .undo-btn {
   width: 100%;
-  height: 100%;
-  padding: 0 8px;
+  padding: 8px;
   border: 1px solid #ff9800;
   background: transparent;
   color: #ff9800;
@@ -178,6 +177,7 @@
   font-size: 12px;
   font-weight: 600;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .undo-btn:hover {
