@@ -31,10 +31,16 @@
   "categories": ["productivity", "lifestyle"],
   "screenshots": [
     {
-      "src": "/habit-tracker/screenshot.png",
+      "src": "/habit-tracker/splash-540x720.svg",
       "sizes": "540x720",
       "form_factor": "narrow",
-      "type": "image/png"
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/habit-tracker/splash-1440x1440.svg",
+      "sizes": "1440x1440",
+      "form_factor": "wide",
+      "type": "image/svg+xml"
     }
   ]
 }

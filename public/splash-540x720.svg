@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 720">
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#45b7d1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#357abd;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="540" height="720" fill="url(#bgGrad)"/>
+  
+  <!-- Decorative circle -->
+  <circle cx="270" cy="250" r="200" fill="rgba(255,255,255,0.1)"/>
+  
+  <!-- Checkbox icon -->
+  <g transform="translate(120, 140)">
+    <!-- Checkbox border -->
+    <rect x="0" y="0" width="300" height="300" rx="20" stroke="white" stroke-width="12" fill="none"/>
+    
+    <!-- Checkmark -->
+    <path d="M 60 160 L 140 240 L 300 80" stroke="white" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="270" y="520" font-size="48" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif">Habit Tracker</text>
+  <text x="270" y="560" font-size="24" fill="rgba(255,255,255,0.9)" text-anchor="middle" font-family="Arial, sans-serif">Build better habits</text>
+</svg>
