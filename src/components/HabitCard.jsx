@@ -83,44 +83,46 @@ export function HabitCard({ habit, onDelete }) {
   }
 
   return (
-    <div
-      className={`habit-card ${completed ? 'completed' : ''} ${showAnimation ? 'animating' : ''}`}
-      onClick={handleCardClick}
-    >
+    <>
       {showAnimation && <AnimationContainer type={animationType} />}
+      
+      <div
+        className={`habit-card ${completed ? 'completed' : ''} ${showAnimation ? 'animating' : ''}`}
+        onClick={handleCardClick}
+      >
+        <div className="habit-card-content">
+          <div className="habit-top">
+            <h3 className="habit-name">{habit.name}</h3>
+            <button
+              className="delete-btn"
+              onClick={handleDelete}
+              title="Delete habit"
+              type="button"
+            >
+              ✕
+            </button>
+          </div>
 
-      <div className="habit-card-content">
-        <div className="habit-top">
-          <h3 className="habit-name">{habit.name}</h3>
-          <button
-            className="delete-btn"
-            onClick={handleDelete}
-            title="Delete habit"
-            type="button"
-          >
-            ✕
+          <div className="habit-bottom">
+            <div className="streak-badge">
+              {streak > 0 && (
+                <>
+                  <span className="fire">🔥</span>
+                  <span className="streak-count">{streak}</span>
+                </>
+              )}
+              {streak === 0 && <span className="no-streak">Start now</span>}
+            </div>
+            {completed && <div className="done-badge">✓ Done</div>}
+          </div>
+        </div>
+
+        <div className={`undo-wrapper ${undoVisible ? 'visible' : ''}`}>
+          <button className="undo-btn" onClick={handleUndo} type="button">
+            Undo
           </button>
         </div>
-
-        <div className="habit-bottom">
-          <div className="streak-badge">
-            {streak > 0 && (
-              <>
-                <span className="fire">🔥</span>
-                <span className="streak-count">{streak}</span>
-              </>
-            )}
-            {streak === 0 && <span className="no-streak">Start now</span>}
-          </div>
-          {completed && <div className="done-badge">✓ Done</div>}
-        </div>
       </div>
-
-      <div className={`undo-wrapper ${undoVisible ? 'visible' : ''}`}>
-        <button className="undo-btn" onClick={handleUndo} type="button">
-          Undo
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
