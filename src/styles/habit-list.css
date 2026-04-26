@@ -1,7 +1,7 @@
 .habit-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .empty-state {
@@ -22,26 +22,28 @@
   font-size: 16px;
 }
 
-/* Mobile - 1 column */
-@media (max-width: 640px) {
+/* Mobile - 2 columns */
+@media (max-width: 480px) {
   .habit-list {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 }
 
 /* Tablet - 2 columns */
-@media (min-width: 641px) and (max-width: 1024px) {
+@media (min-width: 481px) and (max-width: 1024px) {
   .habit-list {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 }
 
-/* Desktop - 2 columns (max width to avoid getting too wide) */
+/* Desktop - 2 columns centered */
 @media (min-width: 1025px) {
   .habit-list {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 600px;
+    gap: 16px;
+    max-width: 500px;
     margin: 0 auto;
   }
 }
