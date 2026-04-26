@@ -246,21 +246,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: filter 0.2s;
-  animation: undo-invert 5s linear forwards;
+  transition: color 0.2s;
 }
 
 .undo-btn:hover {
-  filter: brightness(0.9);
-}
-
-@keyframes undo-invert {
-  0% {
-    filter: invert(0%);
-  }
-  100% {
-    filter: invert(100%);
-  }
+  color: #ff7043;
 }
 
 /* Timeout progress bar - fills from left to right */
@@ -274,6 +264,15 @@
   border-radius: var(--radius-sm);
   animation: undo-timeout-fill 5s linear forwards;
   pointer-events: none;
+  z-index: 0;
+}
+
+/* Text color animation - turns white as bar fills */
+.undo-btn::before {
+  content: 'Undo';
+  position: relative;
+  z-index: 1;
+  animation: undo-text-color 5s linear forwards;
 }
 
 @keyframes undo-timeout-fill {
@@ -282,6 +281,18 @@
   }
   100% {
     width: 100%;
+  }
+}
+
+@keyframes undo-text-color {
+  0% {
+    color: var(--warning);
+  }
+  50% {
+    color: #333;
+  }
+  100% {
+    color: white;
   }
 }
 
