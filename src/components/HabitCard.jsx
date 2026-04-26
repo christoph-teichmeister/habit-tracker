@@ -1,38 +1,63 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { completeHabit, undoCompletion, isCompletedToday, getStreak, getLastCompletionDate, formatLastCompletion, deleteHabit } from '../stores/habits';
-import { Confetti } from './Confetti';
+import { completeHabit, undoCompletion, isCompletedToday, getStreak, deleteHabit } from '../stores/habits';
+import { AnimationContainer } from './AnimationContainer';
 import '../styles/habit-card.css';
 
+const ANIMATIONS = [
+  'confetti',
+  'bounce-glow',
+  'particle-explosion',
+  'rainbow-wave',
+  'star-spiral',
+  'fireworks',
+  'floating-hearts'
+];
+
+function getRandomAnimation() {
+  return ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)];
+}
+
 export function HabitCard({ habit, onDelete }) {
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [animationType, setAnimationType] = useState('confetti');
   const [undoVisible, setUndoVisible] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const completed = isCompletedToday(habit.id);
   const streak = getStreak(habit.id);
-  const lastCompletion = getLastCompletionDate(habit.id);
 
-  const handleComplete = () => {
-    const success = completeHabit(habit.id);
-    if (success) {
-      setShowConfetti(true);
-      setUndoVisible(true);
-      setTimeout(() => setShowConfetti(false), 2000);
-      setTimeout(() => setUndoVisible(false), 3000);
+  const handleCardClick = (e) => {
+    if (e.target.closest('.delete-btn') || showDeleteConfirm) {
+      return;
+    }
+    
+    if (!completed) {
+      const success = completeHabit(habit.id);
+      if (success) {
+        const animation = getRandomAnimation();
+        setAnimationType(animation);
+        setShowAnimation(true);
+        setUndoVisible(true);
+        setTimeout(() => setShowAnimation(false), 4000);
+        setTimeout(() => setUndoVisible(false), 4500);
+      }
     }
   };
 
-  const handleUndo = () => {
+  const handleUndo = (e) => {
+    e.stopPropagation();
     undoCompletion(habit.id);
     setUndoVisible(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    e.stopPropagation();
     setShowDeleteConfirm(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = (e) => {
+    e.stopPropagation();
     deleteHabit(habit.id);
     setShowDeleteConfirm(false);
     onDelete?.(habit.id);
@@ -41,54 +66,58 @@ export function HabitCard({ habit, onDelete }) {
   if (showDeleteConfirm) {
     return (
       <div className="habit-card delete-confirm">
-        <h4>Delete "{habit.name}"?</h4>
-        <p>This action cannot be undone.</p>
-        <div className="confirm-actions">
-          <button className="btn-confirm-yes" onClick={confirmDelete}>
-            Delete
-          </button>
-          <button className="btn-confirm-no" onClick={() => setShowDeleteConfirm(false)}>
-            Cancel
-          </button>
+        <div className="delete-confirm-content">
+          <h4>Delete "{habit.name}"?</h4>
+          <p>This cannot be undone.</p>
+          <div className="confirm-actions">
+            <button className="btn-confirm-yes" onClick={confirmDelete}>
+              Delete
+            </button>
+            <button className="btn-confirm-no" onClick={() => setShowDeleteConfirm(false)}>
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`habit-card ${completed ? 'completed' : ''}`}>
-      {showConfetti && <Confetti />}
-      
-      <div className="habit-header">
-        <h3 className="habit-name">{habit.name}</h3>
-        <button className="delete-btn" onClick={handleDelete} title="Delete habit">
-          ✕
-        </button>
-      </div>
+    <div
+      className={`habit-card ${completed ? 'completed' : ''} ${showAnimation ? 'animating' : ''}`}
+      onClick={handleCardClick}
+    >
+      {showAnimation && <AnimationContainer type={animationType} />}
 
-      <div className="habit-stats">
-        <div className="stat">
-          <span className="stat-label">Streak</span>
-          <span className="stat-value">{streak} 🔥</span>
+      <div className="habit-card-content">
+        <div className="habit-top">
+          <h3 className="habit-name">{habit.name}</h3>
+          <button
+            className="delete-btn"
+            onClick={handleDelete}
+            title="Delete habit"
+            type="button"
+          >
+            ✕
+          </button>
         </div>
-        <div className="stat">
-          <span className="stat-label">Last</span>
-          <span className="stat-value">{formatLastCompletion(lastCompletion)}</span>
+
+        <div className="habit-bottom">
+          <div className="streak-badge">
+            {streak > 0 && (
+              <>
+                <span className="fire">🔥</span>
+                <span className="streak-count">{streak}</span>
+              </>
+            )}
+            {streak === 0 && <span className="no-streak">Start now</span>}
+          </div>
+          {completed && <div className="done-badge">✓ Done</div>}
         </div>
       </div>
-
-      <div className="habit-interval-badge">{habit.interval}</div>
-
-      <button
-        className={`complete-btn ${completed ? 'completed' : ''}`}
-        onClick={handleComplete}
-        disabled={completed}
-      >
-        {completed ? '✓ Done Today' : 'Mark Complete'}
-      </button>
 
       <div className={`undo-wrapper ${undoVisible ? 'visible' : ''}`}>
-        <button className="undo-btn" onClick={handleUndo}>
+        <button className="undo-btn" onClick={handleUndo} type="button">
           Undo
         </button>
       </div>

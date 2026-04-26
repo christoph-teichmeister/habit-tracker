@@ -2,7 +2,7 @@
   --primary: #45b7d1;
   --primary-dark: #357abd;
   --success: #4caf50;
-  --bg: #f8f9fa;
+  --bg: #f5f7fa;
   --text: #333;
   --border: #e0e0e0;
 }
@@ -29,33 +29,33 @@ body {
 .app-header {
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
-  padding: 24px 16px;
+  padding: 32px 16px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .app-header h1 {
-  margin: 0 0 8px 0;
-  font-size: 28px;
+  margin: 0 0 4px 0;
+  font-size: 32px;
   font-weight: 700;
 }
 
 .app-header p {
   margin: 0;
   font-size: 14px;
-  opacity: 0.9;
+  opacity: 0.95;
+  font-weight: 500;
 }
 
 .app-main {
   flex: 1;
-  max-width: 600px;
   width: 100%;
-  margin: 0 auto;
   padding: 24px 16px;
 }
 
 .app-footer {
-  background: #f0f0f0;
+  background: white;
+  border-top: 1px solid var(--border);
   text-align: center;
   padding: 16px;
   font-size: 12px;
@@ -78,11 +78,11 @@ body {
 /* Mobile optimizations */
 @media (max-width: 480px) {
   .app-header {
-    padding: 20px 12px;
+    padding: 24px 12px;
   }
 
   .app-header h1 {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .app-main {

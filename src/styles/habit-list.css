@@ -1,9 +1,11 @@
 .habit-list {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
 .empty-state {
+  grid-column: 1 / -1;
   text-align: center;
   padding: 60px 20px;
   color: #999;
@@ -20,8 +22,26 @@
   font-size: 16px;
 }
 
-@media (max-width: 480px) {
+/* Mobile - 1 column */
+@media (max-width: 640px) {
   .habit-list {
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* Tablet - 2 columns */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .habit-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop - 2 columns (max width to avoid getting too wide) */
+@media (min-width: 1025px) {
+  .habit-list {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px;
+    margin: 0 auto;
   }
 }

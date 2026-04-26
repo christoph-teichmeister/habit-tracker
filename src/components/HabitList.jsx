@@ -11,16 +11,16 @@ export function HabitList() {
     setHabitList(habits.value);
   };
 
-  // Re-sync when habits change
+  // Subscribe to habit changes
   habits.subscribe((newHabits) => {
-    setHabitList(newHabits);
+    setHabitList([...newHabits]);
   });
 
   if (habitList.length === 0) {
     return (
       <div className="empty-state">
-        <h2>No habits yet</h2>
-        <p>Create your first habit to get started! 🚀</p>
+        <h2>No habits yet 🌟</h2>
+        <p>Create your first habit to get started!</p>
       </div>
     );
   }
