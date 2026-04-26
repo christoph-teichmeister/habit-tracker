@@ -153,7 +153,7 @@ export function HabitCard({ habit, onDelete }) {
 
         <div className={`undo-wrapper ${undoVisible ? 'visible' : ''}`}>
           <button className="undo-btn" onClick={handleUndo} type="button">
-            Undo
+            <span className="undo-text" />
             <span className="undo-timeout-bar"></span>
           </button>
         </div>
