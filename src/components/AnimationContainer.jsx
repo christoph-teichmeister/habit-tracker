@@ -31,12 +31,19 @@ export function AnimationContainer({ type }) {
       case 'floating-hearts':
         createFloatingHearts(container);
         break;
+      case 'hamster-wheel':
+        createHamsterWheel(container);
+        break;
+      case 'swirl':
+        createSwirl(container);
+        break;
     }
   }, [type]);
 
   return <div ref={containerRef} className="animation-container" />;
 }
 
+// Keep existing animations...
 function createConfetti(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
@@ -65,14 +72,12 @@ function createBounceGlow(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
 
-  // Create multiple expanding circles
   for (let ring = 0; ring < 3; ring++) {
     setTimeout(() => {
       const glow = document.createElement('div');
       glow.className = 'bounce-glow';
       glow.style.left = centerX + 'px';
       glow.style.top = centerY + 'px';
-      glow.style.setProperty('--delay', ring * 0.3 + 's');
       container.appendChild(glow);
       setTimeout(() => glow.remove(), 4000);
     }, ring * 200);
@@ -110,13 +115,12 @@ function createRainbowPulse(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
   
-  // Create expanding rainbow circles
   for (let i = 0; i < 4; i++) {
     const circle = document.createElement('div');
     circle.className = 'rainbow-pulse';
     circle.style.left = centerX + 'px';
     circle.style.top = centerY + 'px';
-    circle.style.setProperty('--delay', (i * 0.15) + 's');
+    circle.style.animationDelay = (i * 0.15) + 's';
     circle.style.borderColor = ['#FF6B6B', '#FFD700', '#4ECDC4', '#45B7D1'][i];
     
     container.appendChild(circle);
@@ -193,5 +197,48 @@ function createFloatingHearts(container) {
     
     container.appendChild(heart);
     setTimeout(() => heart.remove(), 4000 + delay * 1000);
+  }
+}
+
+// NEW ANIMATIONS
+function createHamsterWheel(container) {
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  const wheel = document.createElement('div');
+  wheel.className = 'hamster-wheel';
+  wheel.style.left = centerX + 'px';
+  wheel.style.top = centerY + 'px';
+  wheel.innerHTML = '🐹';
+  
+  container.appendChild(wheel);
+  setTimeout(() => wheel.remove(), 4000);
+}
+
+function createSwirl(container) {
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFD700'];
+
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'swirl-particle';
+    const angle = (Math.PI * 2 * i) / 40;
+    const distance = 50 + (i * 2);
+    
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+    
+    particle.style.left = centerX + 'px';
+    particle.style.top = centerY + 'px';
+    particle.style.width = (4 + Math.random() * 6) + 'px';
+    particle.style.height = particle.style.width;
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.setProperty('--end-x', x + 'px');
+    particle.style.setProperty('--end-y', y + 'px');
+    particle.style.animationDelay = (i * 0.02) + 's';
+    
+    container.appendChild(particle);
+    setTimeout(() => particle.remove(), 4000);
   }
 }

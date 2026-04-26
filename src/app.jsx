@@ -3,6 +3,7 @@ import { useEffect, useState } from 'preact/hooks';
 import { loadHabits } from './stores/habits';
 import { AddHabitForm } from './components/AddHabitForm';
 import { HabitList } from './components/HabitList';
+import { Mascot } from './components/Mascot';
 import './app.css';
 
 export function App() {
@@ -33,6 +34,8 @@ export function App() {
         <AddHabitForm onSubmit={() => {}} />
         <HabitList />
       </main>
+
+      <Mascot />
     </div>
   );
 }

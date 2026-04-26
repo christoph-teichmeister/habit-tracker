@@ -160,3 +160,50 @@
     transform: translateX(var(--offset-x)) scale(0.3) rotate(10deg);
   }
 }
+
+/* Hamster Wheel Animation */
+.hamster-wheel {
+  position: fixed;
+  font-size: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: hamster-spin 2s linear infinite, hamster-fade-out 4s ease-out forwards;
+  filter: drop-shadow(0 0 8px rgba(244, 164, 96, 0.4));
+}
+
+@keyframes hamster-spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes hamster-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Swirl Particle Animation */
+.swirl-particle {
+  position: fixed;
+  border-radius: 50%;
+  animation: swirl-out 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes swirl-out {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--end-x), var(--end-y)) rotate(720deg) scale(0);
+  }
+}

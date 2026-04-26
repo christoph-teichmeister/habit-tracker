@@ -1,0 +1,150 @@
+.mascot {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+  z-index: 100;
+  animation: mascot-idle 3s ease-in-out infinite;
+}
+
+.mascot.celebrating {
+  animation: mascot-celebrate 0.6s ease-out;
+}
+
+.mascot.sad {
+  animation: mascot-sad 0.4s ease-out;
+}
+
+.mascot.proud {
+  animation: mascot-proud 0.5s ease-out;
+}
+
+.mascot-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mascot-char {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.mascot.celebrating .mascot-char {
+  animation: mascot-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.mascot.sad .mascot-char {
+  animation: mascot-droop 0.4s ease-out;
+}
+
+.mascot.proud .mascot-char {
+  animation: mascot-puff 0.5s ease-out;
+}
+
+.mascot-reaction-label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  animation: float-up-emoji 2s ease-out forwards;
+}
+
+@keyframes mascot-idle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes mascot-celebrate {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(-10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes mascot-bounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mascot-sad {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-5deg) translateY(3px);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes mascot-droop {
+  0% {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+    opacity: 1;
+  }
+  100% {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    opacity: 0.8;
+  }
+}
+
+@keyframes mascot-puff {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float-up-emoji {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-60px);
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .mascot {
+    width: 70px;
+    height: 70px;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .mascot-reaction-label {
+    font-size: 24px;
+    top: -15px;
+  }
+}

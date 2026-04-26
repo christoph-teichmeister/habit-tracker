@@ -1,6 +1,7 @@
 import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { completeHabit, undoCompletion, isCompletedToday, getStreak, deleteHabit } from '../stores/habits';
+import { celebrateCompletion, celebrateStreak, showSadReaction } from '../stores/mascot';
 import { AnimationContainer } from './AnimationContainer';
 import { HabitInfoModal } from './HabitInfoModal';
 import '../styles/habit-card.css';
@@ -12,10 +13,12 @@ const ANIMATIONS = [
   'rainbow-wave',
   'star-spiral',
   'fireworks',
-  'floating-hearts'
+  'floating-hearts',
+  'hamster-wheel',
+  'swirl'
 ];
 
-const UNDO_TIMEOUT = 5000; // 5 seconds
+const UNDO_TIMEOUT = 5000;
 
 function getRandomAnimation() {
   return ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)];
@@ -31,7 +34,6 @@ export function HabitCard({ habit, onDelete }) {
   const completed = isCompletedToday(habit.id);
   const streak = getStreak(habit.id);
 
-  // Cleanup timers on unmount
   useEffect(() => {
     if (!showAnimation) return;
 
@@ -44,7 +46,6 @@ export function HabitCard({ habit, onDelete }) {
     };
   }, [showAnimation]);
 
-  // Auto-dismiss undo button after timeout
   useEffect(() => {
     if (!undoVisible) return;
 
@@ -69,6 +70,15 @@ export function HabitCard({ habit, onDelete }) {
         setAnimationType(animation);
         setShowAnimation(true);
         setUndoVisible(true);
+        
+        // Trigger mascot celebration
+        celebrateCompletion();
+        
+        // Check for streak milestones
+        const newStreak = getStreak(habit.id);
+        if (newStreak > 0) {
+          celebrateStreak(newStreak);
+        }
       }
     }
   };
@@ -77,6 +87,7 @@ export function HabitCard({ habit, onDelete }) {
     e.stopPropagation();
     undoCompletion(habit.id);
     setUndoVisible(false);
+    showSadReaction();
   };
 
   const handleDelete = (e) => {
