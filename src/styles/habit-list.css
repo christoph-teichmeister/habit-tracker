@@ -1,7 +1,7 @@
 .habit-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .empty-state {
@@ -26,7 +26,7 @@
 @media (max-width: 480px) {
   .habit-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 }
 
@@ -34,7 +34,7 @@
 @media (min-width: 481px) and (max-width: 1024px) {
   .habit-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 }
 
@@ -42,8 +42,8 @@
 @media (min-width: 1025px) {
   .habit-list {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    max-width: 500px;
+    gap: 12px;
+    max-width: 480px;
     margin: 0 auto;
   }
 }
