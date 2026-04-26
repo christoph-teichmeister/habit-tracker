@@ -104,15 +104,14 @@ export function HabitCard({ habit, onDelete }) {
           </div>
 
           <div className="habit-bottom">
-            <div className="streak-badge">
-              {streak > 0 && (
-                <>
-                  <span className="fire">🔥</span>
-                  <span className="streak-count">{streak}</span>
-                </>
-              )}
-              {streak === 0 && <span className="no-streak">Start now</span>}
-            </div>
+            {streak > 0 ? (
+              <div className="streak-badge">
+                <span className="fire">🔥</span>
+                <span className="streak-count">{streak}</span>
+              </div>
+            ) : (
+              <div className="no-streak">Click the card to mark this habit as done for today</div>
+            )}
             {completed && <div className="done-badge">✓ Done</div>}
           </div>
         </div>
