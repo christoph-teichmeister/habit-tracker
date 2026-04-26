@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 import { completeHabit, undoCompletion, isCompletedToday, getStreak, deleteHabit } from '../stores/habits';
 import { celebrateCompletion, celebrateStreak, showSadReaction } from '../stores/mascot';
+import { playSound } from '../stores/audio';
 import { AnimationContainer } from './AnimationContainer';
 import { HabitInfoModal } from './HabitInfoModal';
 import '../styles/habit-card.css';
@@ -73,6 +74,7 @@ export function HabitCard({ habit, onDelete }) {
         
         // Trigger mascot celebration
         celebrateCompletion();
+        playSound('completion');
         
         // Check for streak milestones
         const newStreak = getStreak(habit.id);
@@ -88,6 +90,7 @@ export function HabitCard({ habit, onDelete }) {
     undoCompletion(habit.id);
     setUndoVisible(false);
     showSadReaction();
+    playSound('undo');
   };
 
   const handleDelete = (e) => {

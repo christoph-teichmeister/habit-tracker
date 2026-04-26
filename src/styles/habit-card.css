@@ -16,8 +16,9 @@
 
 .habit-card:hover:not(.delete-confirm) {
   border-color: var(--primary);
-  box-shadow: 0 6px 16px rgba(69, 183, 209, 0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(69, 183, 209, 0.2);
+  transform: translateY(-3px);
+  border-radius: 16px;
 }
 
 .habit-card.completed {
@@ -25,8 +26,12 @@
   border-color: var(--success);
 }
 
+.habit-card.completed:hover {
+  box-shadow: 0 8px 24px rgba(76, 175, 80, 0.2);
+}
+
 .habit-card.animating {
-  animation: card-pulse 0.4s ease-out;
+  animation: card-pulse 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 @keyframes card-pulse {
@@ -34,7 +39,7 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.08);
   }
   100% {
     transform: scale(1);
@@ -71,7 +76,6 @@
   color: var(--text);
   flex: 1;
   line-height: 1.2;
-  /* Truncate long titles with ellipsis */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -100,6 +104,7 @@
 .delete-btn:hover {
   background: #fee;
   color: var(--danger);
+  transform: scale(1.2);
 }
 
 .habit-bottom {
@@ -116,6 +121,19 @@
   font-size: 13px;
   font-weight: 700;
   color: #ff6f00;
+  animation: streak-pulse 0.6s ease-out;
+}
+
+@keyframes streak-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .fire {
@@ -131,7 +149,6 @@
   color: #999;
   font-weight: 500;
   line-height: 1.1;
-  /* Truncate long text */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -139,13 +156,49 @@
 
 .done-badge {
   margin-left: auto;
-  background: var(--success);
+  background: linear-gradient(135deg, var(--success), #45a049);
   color: white;
   padding: 2px 6px;
   border-radius: 10px;
   font-size: 10px;
   font-weight: 600;
   flex-shrink: 0;
+  animation: badge-bounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes badge-bounce {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Milestone badge (day 7, 14, 30, 60) */
+.streak-milestone {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, #FFD700, #FFA500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  animation: milestone-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes milestone-pop {
+  0% {
+    transform: scale(0) rotate(-180deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 /* Delete confirmation */
@@ -162,7 +215,6 @@
   margin: 0;
   color: #e65100;
   font-size: 13px;
-  /* Truncate long titles */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -198,6 +250,7 @@
 
 .btn-confirm-yes:hover {
   background: #ff5252;
+  transform: scale(1.05);
 }
 
 .btn-confirm-no {
@@ -246,13 +299,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: filter 0.2s;
 }
 
 .undo-btn:hover {
   color: #ff7043;
+  filter: brightness(1.05);
 }
 
-/* Undo text with color animation */
 .undo-text {
   position: relative;
   z-index: 1;
@@ -272,7 +326,6 @@
   }
 }
 
-/* Timeout progress bar - fills from left to right */
 .undo-timeout-bar {
   position: absolute;
   top: 0;
@@ -304,5 +357,9 @@
 
   .habit-name {
     font-size: 14px;
+  }
+
+  .habit-card:hover:not(.delete-confirm) {
+    transform: translateY(-2px);
   }
 }
