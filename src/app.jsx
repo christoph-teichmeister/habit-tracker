@@ -8,18 +8,33 @@ import './app.css';
 
 export function App() {
   const [mounted, setMounted] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    loadHabits();
-    setMounted(true);
+    try {
+      loadHabits();
+      setMounted(true);
+    } catch (err) {
+      console.error('Failed to load:', err);
+      setError('Failed to load habits');
+      setMounted(true);
+    }
   }, []);
 
-  if (!mounted) return h('div', { className: 'loading' }, 'Loading...');
+  if (error) {
+    return h('div', { className: 'app error-state' }, 
+      h('div', { className: 'error-content' }, error)
+    );
+  }
+
+  if (!mounted) {
+    return h('div', { className: 'loading' }, 'Loading...');
+  }
 
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🪐 Habit Tracker</h1>
+        <h1>☑️ Habit Tracker</h1>
         <p>Build better habits one day at a time</p>
       </header>
 
@@ -29,7 +44,7 @@ export function App() {
       </main>
 
       <footer className="app-footer">
-        <p>All data stored locally • PWA ready • No account needed</p>
+        <p>All data stored locally • Works offline • No account needed</p>
       </footer>
     </div>
   );
