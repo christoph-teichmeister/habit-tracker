@@ -13,25 +13,41 @@ export function loadHabits() {
     if (stored) habits.value = JSON.parse(stored);
     if (storedCompletions) completions.value = JSON.parse(storedCompletions);
   } catch (e) {
-    console.error('Failed to load habits:', e);
+    console.error('Failed to load habits from localStorage:', e);
+    // Don't reset data, let user know there was an issue
   }
 }
 
 // Save to localStorage
 function saveHabits() {
-  localStorage.setItem('habits', JSON.stringify(habits.value));
+  try {
+    localStorage.setItem('habits', JSON.stringify(habits.value));
+  } catch (e) {
+    console.error('Failed to save habits - localStorage may be full:', e);
+  }
 }
 
 function saveCompletions() {
-  localStorage.setItem('completions', JSON.stringify(completions.value));
+  try {
+    localStorage.setItem('completions', JSON.stringify(completions.value));
+  } catch (e) {
+    console.error('Failed to save completions - localStorage may be full:', e);
+  }
 }
 
-// Add habit
+// Add habit with input sanitization
 export function addHabit(name, interval) {
   const id = Date.now().toString();
+  const sanitizedName = name.trim(); // Remove whitespace
+  
+  if (!sanitizedName) {
+    console.error('Habit name cannot be empty');
+    return null;
+  }
+  
   const habit = {
     id,
-    name,
+    name: sanitizedName,
     interval,
     createdAt: new Date().toISOString(),
   };
@@ -48,8 +64,10 @@ export function addHabit(name, interval) {
 
 // Update habit
 export function updateHabit(id, name, interval) {
+  const sanitizedName = name.trim();
+  
   habits.value = habits.value.map(h =>
-    h.id === id ? { ...h, name, interval } : h
+    h.id === id ? { ...h, name: sanitizedName, interval } : h
   );
   saveHabits();
 }

@@ -18,11 +18,25 @@ export function AddHabitForm({ onSubmit }) {
       return;
     }
 
-    addHabit(name, interval);
+    const id = addHabit(name, interval);
+    
+    if (id) {
+      // Reset form after successful submission
+      setName('');
+      setInterval('daily');
+      setShowForm(false);
+      onSubmit?.();
+    } else {
+      setError('Failed to create habit');
+    }
+  };
+
+  const handleCancel = () => {
+    // Reset form state on close
     setName('');
     setInterval('daily');
+    setError('');
     setShowForm(false);
-    onSubmit?.();
   };
 
   if (!showForm) {
@@ -71,7 +85,7 @@ export function AddHabitForm({ onSubmit }) {
         <button
           type="button"
           className="btn-secondary"
-          onClick={() => setShowForm(false)}
+          onClick={handleCancel}
         >
           Cancel
         </button>

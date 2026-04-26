@@ -8,18 +8,18 @@ export function HabitList() {
   const [habitList, setHabitList] = useState([...habits.value]);
 
   useEffect(() => {
-    // Create subscription to habits
+    // Subscribe to habit changes with proper cleanup
     const unsubscribe = habits.subscribe((newHabits) => {
       setHabitList([...newHabits]);
     });
 
+    // Return cleanup function to unsubscribe
     return () => {
-      // Cleanup subscription
-      if (unsubscribe && typeof unsubscribe === 'function') {
+      if (typeof unsubscribe === 'function') {
         unsubscribe();
       }
     };
-  }, []);
+  }, []); // Run only once on mount
 
   const handleDelete = (id) => {
     // Component will re-render via subscription

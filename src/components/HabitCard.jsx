@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import { completeHabit, undoCompletion, isCompletedToday, getStreak, deleteHabit } from '../stores/habits';
 import { AnimationContainer } from './AnimationContainer';
 import { HabitInfoModal } from './HabitInfoModal';
@@ -29,24 +29,33 @@ export function HabitCard({ habit, onDelete }) {
   const completed = isCompletedToday(habit.id);
   const streak = getStreak(habit.id);
 
+  // Cleanup timers on unmount
+  useEffect(() => {
+    if (!showAnimation) return;
+
+    const timers = [];
+    timers.push(setTimeout(() => setShowAnimation(false), 4000));
+    timers.push(setTimeout(() => setUndoVisible(false), 4500));
+
+    return () => {
+      timers.forEach(timer => clearTimeout(timer));
+    };
+  }, [showAnimation]);
+
   const handleCardClick = (e) => {
     if (e.target.closest('.delete-btn') || showDeleteConfirm) {
       return;
     }
     
     if (completed) {
-      // Click on a done task shows info modal
       setShowInfoModal(true);
     } else {
-      // Click on undone task marks it complete
       const success = completeHabit(habit.id);
       if (success) {
         const animation = getRandomAnimation();
         setAnimationType(animation);
         setShowAnimation(true);
         setUndoVisible(true);
-        setTimeout(() => setShowAnimation(false), 4000);
-        setTimeout(() => setUndoVisible(false), 4500);
       }
     }
   };
