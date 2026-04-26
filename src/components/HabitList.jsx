@@ -1,20 +1,29 @@
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import { habits } from '../stores/habits';
 import { HabitCard } from './HabitCard';
 import '../styles/habit-list.css';
 
 export function HabitList() {
-  const [habitList, setHabitList] = useState(habits.value);
+  const [habitList, setHabitList] = useState([...habits.value]);
+
+  useEffect(() => {
+    // Create subscription to habits
+    const unsubscribe = habits.subscribe((newHabits) => {
+      setHabitList([...newHabits]);
+    });
+
+    return () => {
+      // Cleanup subscription
+      if (unsubscribe && typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
 
   const handleDelete = (id) => {
-    setHabitList(habits.value);
+    // Component will re-render via subscription
   };
-
-  // Subscribe to habit changes
-  habits.subscribe((newHabits) => {
-    setHabitList([...newHabits]);
-  });
 
   if (habitList.length === 0) {
     return (
