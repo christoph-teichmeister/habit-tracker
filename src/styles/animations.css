@@ -8,54 +8,44 @@
   z-index: 9999;
 }
 
-/* Confetti */
+/* Confetti - colorful falling squares */
 .confetti-particle {
   position: fixed;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  border-radius: 2px;
   pointer-events: none;
+  animation: confetti-fall 4s ease-out forwards;
 }
 
-@keyframes confetti-fall-anim {
+@keyframes confetti-fall {
   0% {
     transform: translate(0, 0) rotate(0deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(500px) rotate(720deg);
+    transform: translate(
+      calc(var(--vx) * 200px),
+      calc(var(--vy) * 200px + 500px)
+    ) rotate(720deg);
     opacity: 0;
   }
 }
 
-.confetti-particle {
-  animation: confetti-fall-anim 4s ease-out forwards;
-}
-
-/* Bounce & Glow */
+/* Bounce & Glow - expanding rings */
 .bounce-glow {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(255,215,0,0.6) 0%, rgba(255,215,0,0) 70%);
+  border: 3px solid rgba(255, 215, 0, 0.6);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  animation: bounce-glow-anim 4s ease-out forwards;
+  animation: expand-fade 4s ease-out forwards;
+  animation-delay: var(--delay);
 }
 
-@keyframes bounce-glow-anim {
+@keyframes expand-fade {
   0% {
-    width: 100px;
-    height: 100px;
+    width: 40px;
+    height: 40px;
     opacity: 1;
-  }
-  50% {
-    width: 150px;
-    height: 150px;
-    opacity: 0.8;
   }
   100% {
     width: 400px;
@@ -64,17 +54,15 @@
   }
 }
 
-/* Particle Explosion */
+/* Particle Explosion - burst outward */
 .explosion-particle {
   position: fixed;
-  width: 12px;
-  height: 12px;
   border-radius: 50%;
   pointer-events: none;
-  animation: explosion-anim 4s ease-out forwards;
+  animation: explosion 4s ease-out forwards;
 }
 
-@keyframes explosion-anim {
+@keyframes explosion {
   0% {
     opacity: 1;
     transform: translate(0, 0) scale(1);
@@ -85,63 +73,62 @@
   }
 }
 
-/* Rainbow Wave */
-.rainbow-wave {
+/* Rainbow Pulse - expanding colored rings */
+.rainbow-pulse {
   position: fixed;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(90deg, #FF6B6B, #FFD700, #4ECDC4, #45B7D1, #FF1744);
-  transform: translateY(-50%) scaleY(0);
+  width: 50px;
+  height: 50px;
+  border: 3px solid;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  animation: rainbow-wave-anim 4s ease-out forwards;
+  animation: pulse-expand 4s ease-out forwards;
+  animation-delay: var(--delay);
 }
 
-@keyframes rainbow-wave-anim {
+@keyframes pulse-expand {
   0% {
-    transform: translateY(-50%) scaleY(0);
-    opacity: 1;
-  }
-  50% {
-    opacity: 1;
+    width: 50px;
+    height: 50px;
+    opacity: 0.8;
   }
   100% {
-    transform: translateY(-50%) scaleY(1);
+    width: 500px;
+    height: 500px;
     opacity: 0;
   }
 }
 
-/* Star Spiral */
+/* Star Spiral - stars spiraling outward */
 .star-particle {
   position: fixed;
-  font-size: 24px;
+  font-size: 28px;
   pointer-events: none;
-  animation: star-spiral-anim 4s ease-out forwards;
+  animation: spiral-out 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
 }
 
-@keyframes star-spiral-anim {
+@keyframes spiral-out {
   0% {
     opacity: 1;
     transform: translate(0, 0) scale(1) rotate(0deg);
   }
   100% {
     opacity: 0;
-    transform: translate(var(--end-x), var(--end-y)) scale(0) rotate(720deg);
+    transform: translate(var(--end-x), var(--end-y)) scale(0.3) rotate(360deg);
   }
 }
 
-/* Fireworks */
+/* Fireworks - burst particles */
 .firework-particle {
   position: fixed;
-  width: 6px;
-  height: 6px;
   border-radius: 50%;
   pointer-events: none;
-  animation: firework-burst-anim 3s ease-out forwards;
+  animation: firework-burst 3.5s ease-out forwards;
+  box-shadow: 0 0 6px currentColor;
 }
 
-@keyframes firework-burst-anim {
+@keyframes firework-burst {
   0% {
     opacity: 1;
     transform: translate(0, 0) scale(1);
@@ -152,23 +139,24 @@
   }
 }
 
-/* Floating Hearts */
+/* Floating Hearts - hearts floating up */
 .floating-heart {
   position: fixed;
-  font-size: 32px;
+  font-size: 36px;
   pointer-events: none;
-  animation: float-up-anim 4s ease-out forwards;
+  animation: float-up 4s ease-out forwards;
+  filter: drop-shadow(0 2px 4px rgba(255, 107, 107, 0.3));
 }
 
-@keyframes float-up-anim {
+@keyframes float-up {
   0% {
     bottom: -50px;
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scale(1) rotate(-10deg);
   }
   100% {
     bottom: 100vh;
     opacity: 0;
-    transform: translateX(var(--offset-x)) scale(0.5);
+    transform: translateX(var(--offset-x)) scale(0.3) rotate(10deg);
   }
 }

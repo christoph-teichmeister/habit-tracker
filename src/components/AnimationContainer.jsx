@@ -20,7 +20,7 @@ export function AnimationContainer({ type }) {
         createParticleExplosion(container);
         break;
       case 'rainbow-wave':
-        createRainbowWave(container);
+        createRainbowPulse(container);
         break;
       case 'star-spiral':
         createStarSpiral(container);
@@ -42,66 +42,85 @@ function createConfetti(container) {
   const centerY = window.innerHeight / 2;
   const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 60; i++) {
     const particle = document.createElement('div');
     particle.className = 'confetti-particle';
-    const angle = (Math.PI * 2 * i) / 50;
-    const velocity = 4 + Math.random() * 6;
+    const angle = (Math.PI * 2 * i) / 60;
+    const velocity = 5 + Math.random() * 8;
     
     particle.style.left = centerX + 'px';
     particle.style.top = centerY + 'px';
     particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-    particle.style.setProperty('--tx', Math.cos(angle) * velocity * 200 + 'px');
-    particle.style.setProperty('--ty', Math.sin(angle) * velocity * 200 + 'px');
+    particle.style.width = (4 + Math.random() * 8) + 'px';
+    particle.style.height = particle.style.width;
+    particle.style.setProperty('--vx', Math.cos(angle) * velocity);
+    particle.style.setProperty('--vy', Math.sin(angle) * velocity);
     
     container.appendChild(particle);
-    
     setTimeout(() => particle.remove(), 4000);
   }
 }
 
 function createBounceGlow(container) {
-  const glow = document.createElement('div');
-  glow.className = 'bounce-glow';
-  container.appendChild(glow);
-  
-  setTimeout(() => glow.remove(), 4000);
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  // Create multiple expanding circles
+  for (let ring = 0; ring < 3; ring++) {
+    setTimeout(() => {
+      const glow = document.createElement('div');
+      glow.className = 'bounce-glow';
+      glow.style.left = centerX + 'px';
+      glow.style.top = centerY + 'px';
+      glow.style.setProperty('--delay', ring * 0.3 + 's');
+      container.appendChild(glow);
+      setTimeout(() => glow.remove(), 4000);
+    }, ring * 200);
+  }
 }
 
 function createParticleExplosion(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFD700'];
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFD700', '#FF1744', '#00BCD4'];
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 50; i++) {
     const particle = document.createElement('div');
     particle.className = 'explosion-particle';
-    const angle = (Math.PI * 2 * i) / 40;
-    const distance = 100 + Math.random() * 150;
+    const angle = (Math.PI * 2 * i) / 50;
+    const distance = 150 + Math.random() * 200;
     
     const x = Math.cos(angle) * distance;
     const y = Math.sin(angle) * distance;
     
     particle.style.left = centerX + 'px';
     particle.style.top = centerY + 'px';
+    particle.style.width = (6 + Math.random() * 10) + 'px';
+    particle.style.height = particle.style.width;
     particle.style.background = colors[Math.floor(Math.random() * colors.length)];
     particle.style.setProperty('--end-x', x + 'px');
     particle.style.setProperty('--end-y', y + 'px');
     
     container.appendChild(particle);
-    
     setTimeout(() => particle.remove(), 4000);
   }
 }
 
-function createRainbowWave(container) {
-  for (let i = 0; i < 5; i++) {
-    const wave = document.createElement('div');
-    wave.className = 'rainbow-wave';
-    wave.style.animationDelay = (i * 0.1) + 's';
-    container.appendChild(wave);
+function createRainbowPulse(container) {
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  
+  // Create expanding rainbow circles
+  for (let i = 0; i < 4; i++) {
+    const circle = document.createElement('div');
+    circle.className = 'rainbow-pulse';
+    circle.style.left = centerX + 'px';
+    circle.style.top = centerY + 'px';
+    circle.style.setProperty('--delay', (i * 0.15) + 's');
+    circle.style.borderColor = ['#FF6B6B', '#FFD700', '#4ECDC4', '#45B7D1'][i];
     
-    setTimeout(() => wave.remove(), 4000);
+    container.appendChild(circle);
+    setTimeout(() => circle.remove(), 4000);
   }
 }
 
@@ -109,15 +128,15 @@ function createStarSpiral(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 40; i++) {
     const star = document.createElement('div');
     star.className = 'star-particle';
     star.textContent = '⭐';
     
-    const angle = (Math.PI * 2 * i) / 30;
-    const distance = 200 + (i * 3);
+    const angle = (Math.PI * 2 * i) / 40;
+    const distance = 100 + (i * 4);
     const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance - 200;
+    const y = Math.sin(angle) * distance - 150;
     
     star.style.left = centerX + 'px';
     star.style.top = centerY + 'px';
@@ -125,54 +144,54 @@ function createStarSpiral(container) {
     star.style.setProperty('--end-y', y + 'px');
     
     container.appendChild(star);
-    
     setTimeout(() => star.remove(), 4000);
   }
 }
 
 function createFireworks(container) {
-  for (let burst = 0; burst < 3; burst++) {
+  for (let burst = 0; burst < 4; burst++) {
     setTimeout(() => {
-      const colors = ['#FF6B6B', '#FFD700', '#4ECDC4', '#FF1744'];
-      const x = window.innerWidth * (0.3 + Math.random() * 0.4);
-      const y = window.innerHeight * (0.2 + Math.random() * 0.3);
+      const colors = ['#FF6B6B', '#FFD700', '#4ECDC4', '#FF1744', '#00BCD4', '#FF9800'];
+      const x = window.innerWidth * (0.25 + Math.random() * 0.5);
+      const y = window.innerHeight * (0.15 + Math.random() * 0.4);
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 25; i++) {
         const particle = document.createElement('div');
         particle.className = 'firework-particle';
-        const angle = (Math.PI * 2 * i) / 20;
-        const distance = 100 + Math.random() * 150;
+        const angle = (Math.PI * 2 * i) / 25;
+        const distance = 120 + Math.random() * 180;
         
         particle.style.left = x + 'px';
         particle.style.top = y + 'px';
+        particle.style.width = (5 + Math.random() * 7) + 'px';
+        particle.style.height = particle.style.width;
         particle.style.background = colors[Math.floor(Math.random() * colors.length)];
         particle.style.setProperty('--end-x', Math.cos(angle) * distance + 'px');
-        particle.style.setProperty('--end-y', Math.sin(angle) * distance + 150 + 'px');
+        particle.style.setProperty('--end-y', Math.sin(angle) * distance + 200 + 'px');
         
         container.appendChild(particle);
-        
-        setTimeout(() => particle.remove(), 3000);
+        setTimeout(() => particle.remove(), 3500);
       }
-    }, burst * 400);
+    }, burst * 300);
   }
 }
 
 function createFloatingHearts(container) {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 25; i++) {
     const heart = document.createElement('div');
     heart.className = 'floating-heart';
     heart.textContent = '❤️';
     
     const x = Math.random() * window.innerWidth;
-    const offset = (Math.random() - 0.5) * 100;
+    const offset = (Math.random() - 0.5) * 150;
+    const delay = i * 0.08;
     
     heart.style.left = x + 'px';
     heart.style.bottom = '-50px';
     heart.style.setProperty('--offset-x', offset + 'px');
-    heart.style.animationDelay = (i * 0.1) + 's';
+    heart.style.animationDelay = delay + 's';
     
     container.appendChild(heart);
-    
-    setTimeout(() => heart.remove(), 4000);
+    setTimeout(() => heart.remove(), 4000 + delay * 1000);
   }
 }
