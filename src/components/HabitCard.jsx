@@ -1,12 +1,13 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { completeHabit, undoCompletion, isCompletedToday, getStreak, getLastCompletionDate, formatLastCompletion } from '../stores/habits';
+import { completeHabit, undoCompletion, isCompletedToday, getStreak, getLastCompletionDate, formatLastCompletion, deleteHabit } from '../stores/habits';
 import { Confetti } from './Confetti';
 import '../styles/habit-card.css';
 
-export function HabitCard({ habit }) {
+export function HabitCard({ habit, onDelete }) {
   const [showConfetti, setShowConfetti] = useState(false);
   const [undoVisible, setUndoVisible] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const completed = isCompletedToday(habit.id);
   const streak = getStreak(habit.id);
@@ -27,13 +28,42 @@ export function HabitCard({ habit }) {
     setUndoVisible(false);
   };
 
+  const handleDelete = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    deleteHabit(habit.id);
+    setShowDeleteConfirm(false);
+    onDelete?.(habit.id);
+  };
+
+  if (showDeleteConfirm) {
+    return (
+      <div className="habit-card delete-confirm">
+        <h4>Delete "{habit.name}"?</h4>
+        <p>This action cannot be undone.</p>
+        <div className="confirm-actions">
+          <button className="btn-confirm-yes" onClick={confirmDelete}>
+            Delete
+          </button>
+          <button className="btn-confirm-no" onClick={() => setShowDeleteConfirm(false)}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={`habit-card ${completed ? 'completed' : ''}`}>
       {showConfetti && <Confetti />}
       
       <div className="habit-header">
         <h3 className="habit-name">{habit.name}</h3>
-        <span className="habit-interval">{habit.interval}</span>
+        <button className="delete-btn" onClick={handleDelete} title="Delete habit">
+          ✕
+        </button>
       </div>
 
       <div className="habit-stats">
@@ -46,6 +76,8 @@ export function HabitCard({ habit }) {
           <span className="stat-value">{formatLastCompletion(lastCompletion)}</span>
         </div>
       </div>
+
+      <div className="habit-interval-badge">{habit.interval}</div>
 
       <button
         className={`complete-btn ${completed ? 'completed' : ''}`}

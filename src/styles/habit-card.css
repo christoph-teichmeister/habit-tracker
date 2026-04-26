@@ -19,11 +19,32 @@
   border-color: #4caf50;
 }
 
+.habit-card.delete-confirm {
+  background: #fff3e0;
+  border-color: #ff9800;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.habit-card.delete-confirm h4 {
+  margin: 0;
+  color: #e65100;
+  font-size: 16px;
+}
+
+.habit-card.delete-confirm p {
+  margin: 0;
+  color: #ff6f00;
+  font-size: 14px;
+}
+
 .habit-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  gap: 8px;
 }
 
 .habit-name {
@@ -31,9 +52,32 @@
   font-size: 18px;
   font-weight: 600;
   color: #333;
+  flex: 1;
 }
 
-.habit-interval {
+.delete-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #999;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.delete-btn:hover {
+  background: #fee;
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.habit-interval-badge {
   background: #f0f0f0;
   color: #666;
   padding: 4px 12px;
@@ -41,12 +85,14 @@
   font-size: 12px;
   font-weight: 500;
   text-transform: capitalize;
+  width: fit-content;
+  margin-bottom: 12px;
 }
 
 .habit-stats {
   display: flex;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   padding: 12px 0;
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
@@ -132,6 +178,43 @@
 }
 
 .undo-btn:hover {
+  background: #fff3e0;
+}
+
+/* Delete confirmation actions */
+.confirm-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-confirm-yes,
+.btn-confirm-no {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-confirm-yes {
+  background: #ff6b6b;
+  color: white;
+}
+
+.btn-confirm-yes:hover {
+  background: #ff5252;
+}
+
+.btn-confirm-no {
+  background: white;
+  color: #ff9800;
+  border: 1px solid #ff9800;
+}
+
+.btn-confirm-no:hover {
   background: #fff3e0;
 }
 

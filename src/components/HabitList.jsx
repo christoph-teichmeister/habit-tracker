@@ -1,10 +1,20 @@
 import { h } from 'preact';
+import { useState } from 'preact/hooks';
 import { habits } from '../stores/habits';
 import { HabitCard } from './HabitCard';
 import '../styles/habit-list.css';
 
 export function HabitList() {
-  const habitList = habits.value;
+  const [habitList, setHabitList] = useState(habits.value);
+
+  const handleDelete = (id) => {
+    setHabitList(habits.value);
+  };
+
+  // Re-sync when habits change
+  habits.subscribe((newHabits) => {
+    setHabitList(newHabits);
+  });
 
   if (habitList.length === 0) {
     return (
@@ -18,7 +28,7 @@ export function HabitList() {
   return (
     <div className="habit-list">
       {habitList.map((habit) => (
-        <HabitCard key={habit.id} habit={habit} />
+        <HabitCard key={habit.id} habit={habit} onDelete={handleDelete} />
       ))}
     </div>
   );

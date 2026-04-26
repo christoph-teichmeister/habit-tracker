@@ -1,15 +1,18 @@
 const CACHE_NAME = 'habit-tracker-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  '/habit-tracker/',
+  '/habit-tracker/index.html',
+  '/habit-tracker/manifest.json',
+  '/habit-tracker/favicon.svg'
 ];
 
 // Install event
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(urlsToCache);
+      return cache.addAll(urlsToCache).catch(err => {
+        console.log('Cache addAll error:', err);
+      });
     })
   );
   self.skipWaiting();
@@ -31,10 +34,13 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - Network first, fallback to cache
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Clone and cache successful requests
         if (response && response.status === 200) {
           const responseClone = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -44,7 +50,6 @@ self.addEventListener('fetch', (event) => {
         return response;
       })
       .catch(() => {
-        // Fallback to cache if network fails
         return caches.match(event.request);
       })
   );
