@@ -55,11 +55,11 @@ export function HabitCard({ habit }) {
         {completed ? '✓ Done Today' : 'Mark Complete'}
       </button>
 
-      {undoVisible && (
+      <div className={`undo-wrapper ${undoVisible ? 'visible' : ''}`}>
         <button className="undo-btn" onClick={handleUndo}>
           Undo
         </button>
-      )}
+      </div>
     </div>
   );
 }
