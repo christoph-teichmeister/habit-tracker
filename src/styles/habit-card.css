@@ -230,21 +230,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
-  animation: undo-text-color 5s linear forwards;
+  transition: filter 0.2s;
 }
 
 .undo-btn:hover {
-  color: #ff7043;
+  filter: brightness(0.9);
 }
 
-/* Text color animation - turns white when bar reaches it */
-@keyframes undo-text-color {
+/* Invert colors as bar fills */
+.undo-btn {
+  animation: undo-invert 5s linear forwards;
+}
+
+@keyframes undo-invert {
   0% {
-    color: var(--warning);
+    filter: invert(0%);
   }
   100% {
-    color: white;
+    filter: invert(100%);
   }
 }
 
