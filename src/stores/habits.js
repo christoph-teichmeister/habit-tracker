@@ -1,62 +1,69 @@
 import { signal } from '@preact/signals';
-import { getStreakCached, invalidateStreakCache } from './streakCache';
+import { invalidateStreakCache } from './streakCache';
 
-// Main habits store
 export const habits = signal([]);
-export const completions = signal({}); // { habitId: [timestamps...] }
+export const completions = signal({});
+
+// Format date to ISO date string (YYYY-MM-DD) for consistent comparisons
+function toDateString(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 // Load from localStorage
 export function loadHabits() {
   try {
-    const stored = localStorage.getItem('habits');
-    const storedCompletions = localStorage.getItem('completions');
-    
-    if (stored) habits.value = JSON.parse(stored);
-    if (storedCompletions) completions.value = JSON.parse(storedCompletions);
-  } catch (e) {
-    console.error('Failed to load habits from localStorage:', e);
+    const habitsData = localStorage.getItem('habits');
+    const completionsData = localStorage.getItem('completions');
+
+    if (habitsData) {
+      habits.value = JSON.parse(habitsData);
+    }
+    if (completionsData) {
+      completions.value = JSON.parse(completionsData);
+    }
+  } catch (err) {
+    console.error('Failed to load habits:', err);
   }
 }
 
-// Save to localStorage
+// Save to localStorage with error handling
 function saveHabits() {
   try {
     localStorage.setItem('habits', JSON.stringify(habits.value));
-  } catch (e) {
-    console.error('Failed to save habits - localStorage may be full:', e);
+  } catch (err) {
+    console.error('Failed to save habits:', err);
   }
 }
 
 function saveCompletions() {
   try {
     localStorage.setItem('completions', JSON.stringify(completions.value));
-  } catch (e) {
-    console.error('Failed to save completions - localStorage may be full:', e);
+  } catch (err) {
+    console.error('Failed to save completions:', err);
   }
 }
 
-// Add habit with input sanitization
-export function addHabit(name, interval) {
-  const id = Date.now().toString();
+// Create new habit
+export function createHabit(name, interval = 'daily') {
   const sanitizedName = name.trim();
-  
-  if (!sanitizedName) {
-    console.error('Habit name cannot be empty');
-    return null;
-  }
-  
+  if (!sanitizedName) return null;
+
+  const id = `habit-${Date.now()}`;
   const habit = {
     id,
     name: sanitizedName,
     interval,
     createdAt: new Date().toISOString(),
   };
-  
+
   habits.value = [...habits.value, habit];
   if (!completions.value[id]) {
     completions.value = { ...completions.value, [id]: [] };
   }
-  
+
   saveHabits();
   saveCompletions();
   return id;
@@ -65,7 +72,7 @@ export function addHabit(name, interval) {
 // Update habit
 export function updateHabit(id, name, interval) {
   const sanitizedName = name.trim();
-  
+
   habits.value = habits.value.map(h =>
     h.id === id ? { ...h, name: sanitizedName, interval } : h
   );
@@ -78,85 +85,114 @@ export function deleteHabit(id) {
   const newCompletions = { ...completions.value };
   delete newCompletions[id];
   completions.value = newCompletions;
-  
+
   invalidateStreakCache(id);
   saveHabits();
   saveCompletions();
 }
 
 // Mark habit as completed today
+// Stores ONLY the date (YYYY-MM-DD format), NOT the time
 export function completeHabit(id) {
-  const today = new Date().toDateString();
-  const completionTime = new Date().getTime();
-  
+  const today = toDateString();
+
   if (!completions.value[id]) {
     completions.value = { ...completions.value, [id]: [] };
   }
-  
+
   // Check if already completed today
-  const alreadyCompleted = completions.value[id].some(
-    timestamp => new Date(timestamp).toDateString() === today
-  );
-  
+  const alreadyCompleted = completions.value[id].includes(today);
+
   if (!alreadyCompleted) {
     completions.value = {
       ...completions.value,
-      [id]: [...completions.value[id], completionTime],
+      [id]: [...completions.value[id], today],
     };
+
     invalidateStreakCache(id);
     saveCompletions();
     return true;
   }
-  
+
   return false;
 }
 
 // Undo last completion
 export function undoCompletion(id) {
-  if (completions.value[id] && completions.value[id].length > 0) {
-    completions.value = {
-      ...completions.value,
-      [id]: completions.value[id].slice(0, -1),
-    };
-    invalidateStreakCache(id);
-    saveCompletions();
-  }
+  if (!completions.value[id] || completions.value[id].length === 0) return false;
+
+  completions.value = {
+    ...completions.value,
+    [id]: completions.value[id].slice(0, -1),
+  };
+
+  invalidateStreakCache(id);
+  saveCompletions();
+  return true;
 }
 
-// Get completion status for today
+// Check if completed today
 export function isCompletedToday(id) {
-  if (!completions.value[id]) return false;
-  
-  const today = new Date().toDateString();
-  return completions.value[id].some(
-    timestamp => new Date(timestamp).toDateString() === today
-  );
+  const today = toDateString();
+  return completions.value[id]?.includes(today) ?? false;
 }
 
-// Get streak count (cached)
+// Get current streak
 export function getStreak(id) {
-  return getStreakCached(id, completions.value);
+  if (!completions.value[id] || completions.value[id].length === 0) return 0;
+
+  const dates = completions.value[id].sort().reverse();
+  let streak = 1;
+  const today = toDateString();
+  let currentDate = today;
+
+  // Check if last completion is today or yesterday
+  if (dates[0] !== currentDate) {
+    const yesterday = toDateString(new Date(Date.now() - 86400000));
+    if (dates[0] !== yesterday) {
+      return 0;
+    }
+    currentDate = yesterday;
+  }
+
+  // Count consecutive days
+  for (let i = 1; i < dates.length; i++) {
+    const prevDate = toDateString(new Date(new Date(currentDate).getTime() - 86400000));
+    if (dates[i] === prevDate) {
+      streak++;
+      currentDate = prevDate;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
 }
 
 // Get last completion date
 export function getLastCompletionDate(id) {
   if (!completions.value[id] || completions.value[id].length === 0) return null;
-  
-  const sorted = completions.value[id].sort((a, b) => b - a);
-  return new Date(sorted[0]);
+
+  const dates = completions.value[id].sort().reverse();
+  return new Date(dates[0]);
 }
 
 // Format date for display
 export function formatLastCompletion(date) {
   if (!date) return 'Never';
-  
-  const today = new Date().toDateString();
-  const yesterday = new Date(Date.now() - 86400000).toDateString();
-  const dateStr = date.toDateString();
-  
+
+  const today = toDateString();
+  const yesterday = toDateString(new Date(Date.now() - 86400000));
+  const dateStr = toDateString(date);
+
   if (dateStr === today) return 'Today';
   if (dateStr === yesterday) return 'Yesterday';
-  
+
   const daysAgo = Math.floor((Date.now() - date.getTime()) / 86400000);
   return `${daysAgo} days ago`;
+}
+
+// Get all completion dates for a habit
+export function getCompletionDates(id) {
+  return completions.value[id] || [];
 }
