@@ -4,8 +4,8 @@
   --primary-dark: #00796B;
   --primary-light: #A8E6D7;
 
-  /* Secondary - Vibrant Purple */
-  --secondary: #6C63FF;
+  /* Secondary - Vibrant Purple (darkened for better contrast) */
+  --secondary: #5A4FA8;
   --secondary-light: #9B8FFF;
 
   /* Success - Vibrant Green */
@@ -16,8 +16,8 @@
   --streak-color: #FFD700;
   --streak-dark: #FFA500;
 
-  /* Danger & Warning */
-  --danger: #FF3741;
+  /* Danger & Warning (slightly darker for contrast) */
+  --danger: #E63946;
   --warning: #FFA726;
 
   /* Backgrounds */
@@ -26,12 +26,12 @@
   --bg-accent: #E8F8F5;
   --text: #2C3E50;
   --text-light: #7F8C8D;
-  --border: #E0E7FF;
+  --border: #D4D9F0;
 
   /* Shadows - Colorful */
   --shadow-sm: 0 2px 8px rgba(29, 209, 161, 0.12);
-  --shadow-md: 0 4px 16px rgba(108, 99, 255, 0.15);
-  --shadow-lg: 0 8px 24px rgba(108, 99, 255, 0.2);
+  --shadow-md: 0 4px 16px rgba(90, 79, 168, 0.15);
+  --shadow-lg: 0 8px 24px rgba(90, 79, 168, 0.2);
   --shadow-xl: 0 12px 32px rgba(29, 209, 161, 0.2);
 
   /* Transitions */

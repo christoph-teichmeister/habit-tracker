@@ -43,11 +43,12 @@ export function AnimationContainer({ type }) {
   return <div ref={containerRef} className="animation-container" />;
 }
 
-// Keep existing animations...
+// Unified brand color palette for animations
+const BRAND_COLORS = ['#1DD1A1', '#5A4FA8', '#FFD700', '#2ECC71', '#FFA726'];
+
 function createConfetti(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-  const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
 
   for (let i = 0; i < 60; i++) {
     const particle = document.createElement('div');
@@ -57,7 +58,7 @@ function createConfetti(container) {
     
     particle.style.left = centerX + 'px';
     particle.style.top = centerY + 'px';
-    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.background = BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)];
     particle.style.width = (4 + Math.random() * 8) + 'px';
     particle.style.height = particle.style.width;
     particle.style.setProperty('--vx', Math.cos(angle) * velocity);
@@ -87,7 +88,6 @@ function createBounceGlow(container) {
 function createParticleExplosion(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFD700', '#FF1744', '#00BCD4'];
 
   for (let i = 0; i < 50; i++) {
     const particle = document.createElement('div');
@@ -102,7 +102,7 @@ function createParticleExplosion(container) {
     particle.style.top = centerY + 'px';
     particle.style.width = (6 + Math.random() * 10) + 'px';
     particle.style.height = particle.style.width;
-    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.background = BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)];
     particle.style.setProperty('--end-x', x + 'px');
     particle.style.setProperty('--end-y', y + 'px');
     
@@ -121,7 +121,7 @@ function createRainbowPulse(container) {
     circle.style.left = centerX + 'px';
     circle.style.top = centerY + 'px';
     circle.style.animationDelay = (i * 0.15) + 's';
-    circle.style.borderColor = ['#FF6B6B', '#FFD700', '#4ECDC4', '#45B7D1'][i];
+    circle.style.borderColor = BRAND_COLORS[i % BRAND_COLORS.length];
     
     container.appendChild(circle);
     setTimeout(() => circle.remove(), 4000);
@@ -155,7 +155,6 @@ function createStarSpiral(container) {
 function createFireworks(container) {
   for (let burst = 0; burst < 4; burst++) {
     setTimeout(() => {
-      const colors = ['#FF6B6B', '#FFD700', '#4ECDC4', '#FF1744', '#00BCD4', '#FF9800'];
       const x = window.innerWidth * (0.25 + Math.random() * 0.5);
       const y = window.innerHeight * (0.15 + Math.random() * 0.4);
 
@@ -169,7 +168,7 @@ function createFireworks(container) {
         particle.style.top = y + 'px';
         particle.style.width = (5 + Math.random() * 7) + 'px';
         particle.style.height = particle.style.width;
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.background = BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)];
         particle.style.setProperty('--end-x', Math.cos(angle) * distance + 'px');
         particle.style.setProperty('--end-y', Math.sin(angle) * distance + 200 + 'px');
         
@@ -200,7 +199,6 @@ function createFloatingHearts(container) {
   }
 }
 
-// NEW ANIMATIONS
 function createHamsterWheel(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
@@ -218,7 +216,6 @@ function createHamsterWheel(container) {
 function createSwirl(container) {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFD700'];
 
   for (let i = 0; i < 40; i++) {
     const particle = document.createElement('div');
@@ -233,7 +230,7 @@ function createSwirl(container) {
     particle.style.top = centerY + 'px';
     particle.style.width = (4 + Math.random() * 6) + 'px';
     particle.style.height = particle.style.width;
-    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.background = BRAND_COLORS[Math.floor(Math.random() * BRAND_COLORS.length)];
     particle.style.setProperty('--end-x', x + 'px');
     particle.style.setProperty('--end-y', y + 'px');
     particle.style.animationDelay = (i * 0.02) + 's';

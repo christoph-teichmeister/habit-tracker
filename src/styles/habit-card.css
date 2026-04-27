@@ -390,3 +390,15 @@
     font-size: 12px;
   }
 }
+
+/* Optimization: Completed card with stronger green border */
+.habit-card.completed {
+  border-color: var(--success);
+  border-left: 4px solid var(--success);
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(168, 230, 215, 0.15) 100%);
+}
+
+.habit-card.completed:hover {
+  box-shadow: 0 8px 32px rgba(46, 204, 113, 0.3), 0 0 20px rgba(46, 204, 113, 0.15);
+  border-color: var(--success);
+}

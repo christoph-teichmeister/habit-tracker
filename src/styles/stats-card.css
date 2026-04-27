@@ -116,3 +116,49 @@
     font-size: 18px;
   }
 }
+
+/* Optimization: Mobile text readability */
+@media (max-width: 640px) {
+  .stats-card {
+    gap: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .stat-label {
+    font-size: 9px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+    /* Fallback to solid color for better mobile readability */
+    background: unset;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+  }
+
+  .stat-item:nth-child(1) .stat-value {
+    color: var(--secondary);
+  }
+
+  .stat-item:nth-child(2) .stat-value {
+    color: var(--success);
+  }
+
+  .stat-item:nth-child(3) .stat-value {
+    color: var(--streak-color);
+  }
+}
