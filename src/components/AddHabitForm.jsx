@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
-import { addHabit } from '../stores/habits';
+import { createHabit } from '../stores/habits';
 import '../styles/form.css';
 
 export function AddHabitForm({ onSubmit }) {
@@ -18,7 +18,7 @@ export function AddHabitForm({ onSubmit }) {
       return;
     }
 
-    const id = addHabit(name, interval);
+    const id = createHabit(name, interval);
     
     if (id) {
       // Reset form after successful submission
